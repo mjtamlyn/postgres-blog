@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <title>Improved PostgreSQL support for Django - django</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Improved PostgreSQL support for Django Atom Feed" />
 
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -90,14 +91,16 @@ PostgreSQL specific features into Django. This will be as a new contrib module
 - <code>django.contrib.postgres</code>. This is not a small undertaking I can write in an
 odd evening or weekend. I'm going to need your help to allow me to spend enough
 time on it to make it good. To that end, and inspired by Andrew Godwin's
-success with migrations, I'm launching a Kickstarter hopefully at some point in
-the next week. The initial aim is to ensure that most Postgres data types have
-a good Django equivalent, and for full text search to be possible. With more
-funding, I'll also make date based queries much more powerful, add dozens of
-postgres specific functions as custom transforms and lookups, and add support
-for custom indexes and views. It will take time to build all of this, but I'm
-confident at least some features will land for Django 1.8, with most of the
-rest in Django 1.9.</p>
+<a href="www.kickstarter.com/projects/andrewgodwin/schema-migrations-for-django">success with
+migrations</a>,
+I'm launching a Kickstarter hopefully at some point in the next week. The
+initial aim is to ensure that most Postgres data types have a good Django
+equivalent, and for full text search to be possible. With more funding, I'll
+also make date based queries much more powerful, add dozens of postgres
+specific functions as custom transforms and lookups, and add support for custom
+indexes and views. It will take time to build all of this, but I'm confident at
+least some features will land for Django 1.8, with most of the rest in Django
+1.9.</p>
 <p>For reference, this is what I currently consider as the list of things each
 field will need to be considered fully supported:</p>
 <ul>
@@ -131,6 +134,7 @@ field will need to be considered fully supported:</p>
                 <div class="social">
                         <h2>social</h2>
                         <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="http://twitter.com/mjtamlyn">Twitter</a></li>
                             <li><a href="http://github.com/mjtamlyn">Github</a></li>
