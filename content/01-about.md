@@ -23,7 +23,7 @@ update keys via the custom manager, and there's even an interesting subclass
 which extends the API to reference other model instances as the values. It's
 not all perfect - the API could be more natural in some places (e.g.
 `.filter(data__mykey=value)` rather than `.filter(data__contains({'mykey':
-'value'})`, but we are pretty much there.
+'value'})` - but we are pretty much there.
 
 What about arrays? Well according to django packages there are [several
 different implementations](https://www.djangopackages.com/grids/g/arrayfield/),
@@ -72,13 +72,14 @@ PostgreSQL specific features into Django. This will be as a new contrib module
 - `django.contrib.postgres`. This is not a small undertaking I can write in an
 odd evening or weekend. I'm going to need your help to allow me to spend enough
 time on it to make it good. To that end, and inspired by Andrew Godwin's
-success with migrations, I'm launching a [kickstarter]() today. The initial aim
-is to ensure that most Postgres data types have a good Django equivalent,
-and for full text search to be possible. With more funding, I'll also make date
-based queries much more powerful, add dozens of postgres specific functions as
-custom transforms and lookups, and add support for custom indexes and views. It
-will take time to build all of this, but I'm confident at least some features
-will land for Django 1.8, with most of the rest in Django 1.9.
+success with migrations, I'm launching a [Kickstarter]() hopefully at some
+point in the next week. The initial aim is to ensure that most Postgres data
+types have a good Django equivalent, and for full text search to be possible.
+With more funding, I'll also make date based queries much more powerful, add
+dozens of postgres specific functions as custom transforms and lookups, and add
+support for custom indexes and views. It will take time to build all of this,
+but I'm confident at least some features will land for Django 1.8, with most of
+the rest in Django 1.9.
 
 For reference, this is what I currently consider as the list of things each
 field will need to be considered fully supported:
