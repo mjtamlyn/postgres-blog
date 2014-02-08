@@ -16,7 +16,6 @@ CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 
 # Blogroll
 LINKS = (
-    ('Kickstarter', ''),
     ('Django', 'http://djangoproject.org/'),
 )
 
