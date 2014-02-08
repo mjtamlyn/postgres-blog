@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Marc Tamlyn'
 SITENAME = 'Improved PostgreSQL support for Django'
-SITEURL = ''
+SITEURL = 'http://postgres.mjtamlyn.co.uk/'
 
 TIMEZONE = 'Europe/London'
 
