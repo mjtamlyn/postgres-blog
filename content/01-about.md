@@ -73,7 +73,7 @@ PostgreSQL specific features into Django. This will be as a new contrib module
 odd evening or weekend. I'm going to need your help to allow me to spend enough
 time on it to make it good. To that end, and inspired by Andrew Godwin's
 [success with
-migrations](www.kickstarter.com/projects/andrewgodwin/schema-migrations-for-django),
+migrations](http://www.kickstarter.com/projects/andrewgodwin/schema-migrations-for-django),
 I'm launching a Kickstarter hopefully at some point in the next week. The
 initial aim is to ensure that most Postgres data types have a good Django
 equivalent, and for full text search to be possible. With more funding, I'll
