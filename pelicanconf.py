@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Marc Tamlyn'
 SITENAME = 'Improved PostgreSQL support for Django'
-SITEURL = 'http://postgres.mjtamlyn.co.uk/'
+SITEURL = 'http://postgres.mjtamlyn.co.uk'
 
 TIMEZONE = 'Europe/London'
 
@@ -17,6 +17,7 @@ CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 # Blogroll
 LINKS = (
     ('Django', 'http://djangoproject.org/'),
+    ('Kickstarter', 'https://www.kickstarter.com/projects/mjtamlyn/improved-postgresql-support-in-django'),
 )
 
 # Social widget
