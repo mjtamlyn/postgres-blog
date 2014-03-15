@@ -1,10 +1,10 @@
 Title: A wild Kickstarter appears!
 Date: 2014-02-08
-Category: Django postgres
+Category: Blog
 Tags: django, postgres, kickstarter
 Slug: launch
 Author: Marc Tamlyn
-Summary: Because the Django pony and the Postgres elephant could be better friends.
+Summary: Kickstarting improved PostgreSQL support in Django - because the Django pony and the Postgres elephant could be better friends.
 
 I love Django. I also love PostgreSQL.
 

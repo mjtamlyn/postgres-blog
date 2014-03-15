@@ -1,0 +1,339 @@
+Title: Sponsors
+Date: 2014-03-15
+Author: Marc Tamlyn
+
+- Django Software Foundation
+- Judicata
+- Django Stars
+- Tangent Labs
+- Lincoln Loop
+- Incuna Ltd
+- Emencia
+- Vidir Gudmundsson
+- Henk Vos
+- Paul Andrew Hallett
+- David Cramer
+- Christian Bertschy
+- Ace Gopher
+- Akita Noek
+- Loic Bistuer
+- James Tauber
+- Nils Bunger
+- Jannis Leidel
+- Robert Coup
+- Fusionbox
+- adonm
+- Scott Nixon
+- Russell Keith-Magee
+- Max Arnold
+- Taifu
+- Mirumee Labs
+- Jon Evans
+- Michael Gerstle
+- jdelic
+- Senko Rašić
+- Gregory Favre
+- Omer Katz
+- Denis Cornehl
+- Robert Stein
+- Darrell Bishop
+- Aleksander Prokofiev
+- Nephila
+- Giuseppe Ciotta
+- Nelen & Schuurmans
+- Yves Serrano
+- Simon Riggs
+- Christophe Pettus
+- Streema, Inc.
+- Chris Heisel
+- Dan Davison
+- Rene Nejsum
+- evonove
+- Jay
+- Chris Clark
+- ORDOQUY Xavier
+- Chris Cogdon
+- Benjamin Wohlwend
+- Stefan Foulis
+- Markus Holtermann
+- Alex Gaynor
+- Darian Moody
+- Andrew Ingram
+- Jorge Bastida
+- Dan Fairs
+- John Carr
+- Andrew Godwin
+- Ryan Kaskel
+- Claire Reynaud
+- Tomek Paczkowski
+- Sander Steffann
+- Aymeric Augustin
+- Joseph Kocherhans
+- Sebastian vetter
+- Tom Eastman
+- João Paulo Dubas
+- jnphilipp
+- Baptiste Mispelon
+- Ludovic Havel
+- Craig Bruce
+- Joel Crocker
+- Daniel Sears
+- Tomas Vondra
+- Bertrand Bordage
+- Chris Streeter
+- Justin Wing Chung Hui
+- Omen
+- Nicolas Champsavoir
+- Ivor Bosloper
+- Keng Susumpow
+- lom276
+- Hilbert Schraal
+- Rudy De Volder
+- Wolfgang Doll
+- Craig Labenz
+- Krille
+- Daan Vielen
+- Chris Ward
+- Angel Velásquez
+- Martin Brochhaus
+- W.B.Hill
+- Laurent Paoletti
+- hjwp
+- Goetz Buerkle
+- Bruno Renié
+- Arthur Haney
+- Dawnstar Australis
+- Chris Hunt
+- George Hickman
+- Aaron Bassett
+- Steve Jalim
+- Ulrich Petri
+- JLinden
+- steko
+- Brent Hagany
+- Chris Drackett
+- Scanner Luce
+- Josh Drake
+- Jure Cuhalev
+- Mathias Kahl
+- Bruce Stringer
+- palewire
+- vasa.chi
+- Joris
+- Derek Payton
+- Ruben
+- Timo-Pekka Yrjola
+- Brenton Cleeland
+- Jason Fehr
+- Ian Foote
+- Christoph Heer
+- Peter Kropf
+- Daniel Lindsley
+- Denis Iskandarov
+- Daniel Johansson
+- Jirka Vejrazka
+- Gert Van Gool
+- Sergey Kopylov
+- erroneousboat
+- Brian Rosner
+- Miguel Pilar
+- Julian Wachholz
+- Jim Ray
+- Mathieu Meylan
+- Faisal Akber
+- Eduardo Felipe Castegnaro
+- Kevin Way
+- Gheesh
+- Joseph Server
+- Anselm Lingnau
+- Patrick Craston
+- James Skarie
+- Patrick Taylor
+- Jacob Haslehurst
+- Jon Fedyk
+- Frederic Tschannen
+- Jesús Espino
+- Tomas Jacobsen
+- Andrés Moya
+- Anirudh Surendranath
+- loci
+- Tomas Sirny
+- fm 10.4
+- Botify Labs
+- Markus Zapke-Gründemann
+- Petr Marhoun
+- Henrik Saksela
+- Алексей
+- Yousef Bonashi
+- iynaix
+- Martin
+- Matt Broach
+- John Roth
+- Vincent Hamilton
+- Bryan Veloso
+- John Pena
+- Anand Kumria
+- Patrick Arminio
+- José Sánchez Moreno
+- Peter Sanchez
+- Simon Hewitt
+- DavidBarragán Merino
+- Alasdair Nicol
+- Ales
+- histyleparadox
+- Chad Johnson
+- Yann Eves-Hollis
+- harijay
+- markpasc
+- Corey Farwell
+- Dave Gaeddert
+- Doug
+- Peppe Bergqvist
+- Ryan Pitts
+- marteinn
+- Stephen Newey
+- Colin Rolfe
+- Nicolas Dubois
+- Jeroen Dekkers
+- Humphrey Murray
+- Richard Zak
+- Andrew Gorcester
+- Daniel Greenfeld
+- Dave Lane
+- Paul Labedan
+- Ogre
+- Eleni Lixourioti
+- Sebastian Brandt
+- Peter Inglesby
+- Patryk Zawadzki
+- Sidney Richards
+- James Cleveland
+- Pedro-Juan Ferrer
+- Kevin Seelbach
+- Roy Firestein
+- Eugene
+- Athanassios Diacakis
+- George London
+- Nathaniel Stanley
+- elleryq
+- Tomas Thor Jonsson
+- Maziar Zamani
+- Solomon Matthews
+- Peter Hyben
+- Alexey Zotov
+- Jose Padilla
+- Matthew Peterson
+- Mikhail Mitrofanov
+- Arjen Vrielink
+- Koh Chuan Yeong
+- Luciano Ramalho
+- Denis Simonet
+- Danilo
+- Yohann
+- Colin Coghill
+- StartUp Genesis
+- Craig de Stigter
+- Alexander
+- Joshua Johanan
+- Jonathan Anders
+- Robert McHardy
+- garretraziel
+- Adam James Forster
+- Alejandro Alonso Fernández
+- John Sutherland
+- Mikhail Priver
+- Valder Gallo
+- Skomli
+- Ralph Broenink
+- Francesc Ortiz
+- Tom Christie
+- Dana Spiegel
+- Patryk Ściborek
+- Krzysztof Szularz
+- Rolf Erik
+- Eyad Toma
+- Adrian Smith
+- Christoph Schindler
+- Paul Davis
+- Ankhbayar
+- Ethan Glasser-Camp
+- Valentin V. Bartenev
+- Rooney
+- Kenneth Wee
+- Meir Kriheli
+- Will Boyce
+- Ramana Varanasi
+- Chris Horsley
+- Petar Bukvic
+- Richard Eames
+- Devang Mundhra
+- Kurt Ostergaard
+- Tom Atkins
+- kilobug
+- Christophe Narbonne
+- Anton Egorov
+- Ryan Blunden
+- Robert Dollinger
+- Casper S. Jensen
+- Christian Lange
+- dpwiz
+- Taymon
+- Andreas Madsack
+- Kevin McLaughlin
+- Charles Denton
+- Alexander Brandt
+- Monte Milanuk
+- Michael Miller
+- Rodolfo De Nadai
+- mike smith
+- Jayaseelan Yezhuaralai
+- James Walker
+- Ben Beecher
+- Alec Perkins
+- Joshua Bonnett
+- Kiwi
+- Andy Byers
+- Sebastian
+- Anthony Castillo
+- Dave Arter
+- Nimish Telang
+- Steve Mumford
+- cob Kaplan-Moss
+- Ahren Pfrehm
+- schwanksta
+- Django Software Foundation
+- Ross Poulton
+- Михаил Федосов
+- Milo Casagrande
+- Stephan Huiser
+- Andreas Rieger
+- Anna Warzecha
+- HakTom
+- Kevin Samuel
+- Florian Apolloner
+- Rogelio
+- Jacek Kołodziej
+- Detlef Lannert
+- Florian Kaiser
+- Andrey Nelubin
+- Brendan Smith
+- Marwan Alsabbagh
+- Tomohiro Otsuka
+- Paul Solomon
+- Agostino
+- Jane Pronina
+- Nick
+- Anton Medvedev
+- Angel Freire
+- Les Dodd
+- Carsten Steckel
+- Kate Seamer
+- John O'Nolan
+- Fadi Samara
+- urijah
+- Rémy Sanchez
+- Andrew Kuchling
+- Nimrod Shkedy
+- Uzi Halaby-Senerman
+- Rob Messick
+- Jan W

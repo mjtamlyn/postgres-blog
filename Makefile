@@ -81,7 +81,9 @@ stopserver:
 	kill -9 `cat srv.pid`
 	@echo 'Stopped Pelican and SimpleHTTPServer processes running in background.'
 
-github: html
+github:
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
+	cp CNAME $(OUTPUTDIR)
 	ghp-import $(OUTPUTDIR)
 	git push origin gh-pages
 
