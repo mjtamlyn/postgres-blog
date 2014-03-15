@@ -15,13 +15,97 @@
         <header id="banner" class="body">
                 <h1><a href="http://postgres.mjtamlyn.co.uk/">Improved PostgreSQL support for Django </a></h1>
                 <nav><ul>
-                    <li><a href="http://postgres.mjtamlyn.co.uk/category/django-postgres.html">Django postgres</a></li>
+                    <li><a href="http://postgres.mjtamlyn.co.uk/pages/sponsors.html">Sponsors</a></li>
+                    <li><a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/launch.html">A wild Kickstarter appears!</a></h1>
+                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/where-to-start.html">Making a start</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-03-15T00:00:00">
+                Sat 15 March 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
+        </address>
+<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
+</footer><!-- /.post-info --><p>The last month has been amazing for me. It feels like the whole Django
+community has got behind this project and is looking forwards to it. An
+enormous thank you to everyone who has contributed to the project. I am still
+gathering together the details of the sponsors, but you can see a "raw" list on
+<a href="/pages/sponsors.html">this site</a>. In particular, I'd like to thank the DSF,
+Django stars, Judicata and Tangent Labs for their particularly generous
+donations, but without all of you, none of what I'm about to do would be
+possible.</p>
+<p>I've made a start writing some code. Easily one of the most popular features is
+hstore. For those who might not be familiar, a postgres hstore is a bit like a
+simple dictionary in a column - it contains a mapping of strings to strings.
+They are one dimensional and completely free form - there is no guarantee about
+which keys might exist. They are a really great way to add a small amount of
+unstructured data to a model without making schema changes. You might be
+tempted to just use json for this sort of functionality, but unless you need
+the nested structures, hstore is much more powerful for querying and indexing.</p>
+<p>The problem with hstore is that it requires an extension. This is pretty
+straightforwards for a production database - just type <code>CREATE EXTENSION
+hstore</code> at the prompt in that database once (before creating the tables) and
+you're good to go. Where it becomes a problem for us is in testing - the newly
+created test database does not have the <code>hstore</code> extension. It would also be
+nice if you didn't have to log on to your shell and run the <code>CREATE EXTENSION</code>
+directly, it was just created if you have a model using hstore.</p>
+<p>There are a few possible ways to acheive this using the new migrations
+framework. The first (for which there is a <a href="https://github.com/django/django/pull/2266">proposed
+patch</a>) is to extend
+<code>Field.db_parameters()</code> to allow it to return some <code>pre_create_sql</code>, which will
+be run every time a field of this type is created (either by adding a model
+using the field, or by adding a field of this type to an already existing
+model). This means the sql might be run many times and needs to be coded
+defensively - that is use <code>CREATE EXTENSION IF NOT EXISTS</code>. Whilst this patch
+works, it introduces potentially a large number of unnecessary SQL statements
+run against the database, and it also has no way to remove any extension if it
+is no longer needed.</p>
+<p>An alternative is to create an initial migration in the postgres app which will
+create all the necessary extensions that might be needed for all parts of the
+app. This has a major drawback which is that it would create extensions even if
+the project does not use that part of the code. As some extensions could
+conceivably only for for some versions of PostgreSQL, these migrations might
+not even work for all users.</p>
+<p>Another alternative is to introduce a new concept called an <code>Extension</code> which
+would be tracked by the autodetector for migrations. I'm going to try to create
+a concrete patch for this to see how complex it is, but the idea does have some
+usage outside of postgres as a means of allowing certain models or field types
+to require custom functions to be created in the database, something which all
+the supported databases have.</p>
+<p>This is going to take some time to get right, so in the mean time I'm going to
+make a start on array fields. They're possibly my favourite feature in the
+entire project and something I know I have half a dozen concrete use cases for.
+One of the most interesting things about them is that they can be created for
+almost any django field type (with the notable exception of
+<code>ManyToManyField</code>!), so there's a lot of possible edge cases, especially in the
+admin widget. It will also be the first core field to have dynamic custom
+lookups - a syntax along the lines of <code>.filter(myarray__0=17)</code>.</p>
+<p>First things first however is the get the beta of 1.7 out of the door and get
+the branch away for master. This will then allow me to start merging new
+features into Django master. As always, community help with reviewing
+prereleases of Django is enormously beneficial for the core team, so please do
+go and download the new versions and test them out - there are loads of awesome
+new features in 1.7!</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://postgres.mjtamlyn.co.uk/launch.html" rel="bookmark"
+                           title="Permalink to A wild Kickstarter appears!">A wild Kickstarter appears!</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-02-08T00:00:00">
                 Sat 08 February 2014
@@ -30,98 +114,16 @@
         <address class="vcard author">
                 By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
         </address>
-<p>In <a href="http://postgres.mjtamlyn.co.uk/category/django-postgres.html">Django postgres</a>. </p>
+<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info --><p>I love Django. I also love PostgreSQL.</p>
-<p>I've been fortunate enough to hear Craig Kersteins and Christophe Pettus talk
-several times about how wonderful Postgres is. I've come away from Django
-conferences filled with enthusiasm for the promised land of database
-specificity, of semi-flexible schemas using hstore, of array fields, of json in
-my database, of full text search and functional indexes and materialized views
-and… all the other wonderful features offered by Postgres.</p>
-<p>Then I go looking for third party packages to use these features. The state of
-hstore is pretty good - I can install the <code>django-hstore</code> package, add a model
-and a custom manager to my model and everything works, even the admin. The API
-for filtering is pretty good, I get some interesting atomic operations to
-update keys via the custom manager, and there's even an interesting subclass
-which extends the API to reference other model instances as the values. It's
-not all perfect - the API could be more natural in some places (e.g.
-<code>.filter(data__mykey=value)</code> rather than <code>.filter(data__contains({'mykey':
-'value'})</code> - but we are pretty much there.</p>
-<p>What about arrays? Well according to django packages there are <a href="https://www.djangopackages.com/grids/g/arrayfield/">several
-different implementations</a>,
-none of which have Python3 support, none of which are currently actively
-developed, and most of which don't even have documentation. Alternatively,
-there's <a href="https://github.com/niwibe/djorm-ext-pgarray">djorm-ext-pgarray</a> which
-is better, but it still requires me to understand how to use array fields in
-SQL - I need to know what <code>@&gt;</code> means, using <code>SqlExpression</code> objects in
-<code>.where()</code> clauses to build my queries. I need to know the postgres name for
-the underlying database field I want to use. That's not the ORM I love.</p>
-<p>Now, I do not wish to appear too harsh on the developers of these pacakges and
-others. Django has in no way helped them make it easy to provide nice APIs. The
-custom field syntax is quite limited, only really allowing you to change the
-mapping between the database structure and the python structure, and changing
-the <code>db_type</code> to modify creation. This gets a lot better in Django 1.7 as we
-now have <a href="https://docs.djangoproject.com/en/dev/ref/models/custom-lookups/">custom lookups and
-transforms</a>,
-although they currently only work in <code>.filter()</code> clauses. In particular, I'd
-like to thank <a href="https://github.com/niwibe">Andrey Antukh</a> for his work on the
-<code>pg-ext-*</code> collection of packages, which have working implementations of most
-of the features I wish to build directly into Django.</p>
-<p>That said, we can do better. Several people I've worked with, who I consider to
-be very good Django developers, have absolutely no idea how to go about
-constructing complex SQL queries by hand. Ask what the difference is between
-a left and a right outer join and you'll just get a blank expression. Whilst
-it's easy to be snarky about this and claim it's a failing in their education,
-I prefer to see it as a huge compliment for the power of the Django ORM. These
-people have managed to write numerous successful websites with the database at
-the core of the functionality, without knowing how to interact with their
-database directly. I would like the more advanced postgres features to have the
-same ease of use.</p>
-<p>Whilst in Warsaw at the wonderful <a href="http://2013.djangocon.eu/">Django Circus</a>
-conference last summer, I chatted a bit to members of the core team about this
-concept, and the general state of postgres support in the community. There was
-agreement that it was not ideal, and we could do better. The idea formed in my
-head that we could build first class support for these features into Django
-itself, with the understanding that using database specific functionality is
-perfectly reasonable (if not required) for any large site.</p>
-<p>So I've decided to do something about it. The core team and the DSF have given
-their backing for me to do exactly that - build first class support for
-PostgreSQL specific features into Django. This will be as a new contrib module
-- <code>django.contrib.postgres</code>. This is not a small undertaking I can write in an
-odd evening or weekend. I'm going to need your help to allow me to spend enough
-time on it to make it good. To that end, and inspired by Andrew Godwin's
-<a href="http://www.kickstarter.com/projects/andrewgodwin/schema-migrations-for-django">success with
-migrations</a>,
-I'm launching a Kickstarter hopefully at some point in the next week. The
-initial aim is to ensure that most Postgres data types have a good Django
-equivalent, and for full text search to be possible. With more funding, I'll
-also make date based queries much more powerful, add dozens of postgres
-specific functions as custom transforms and lookups, and add support for custom
-indexes and views. It will take time to build all of this, but I'm confident at
-least some features will land for Django 1.8, with most of the rest in Django
-1.9.</p>
-<p>For reference, this is what I currently consider as the list of things each
-field will need to be considered fully supported:</p>
-<ul>
-<li>The field implementation itself, with appropriate keyword arguments to
-  provide the same level of expression as the raw SQL equivalent</li>
-<li>Support for "standard" filters such as <code>__contains</code>, <code>__lt</code> etc if
-  appropriate</li>
-<li>Support for appropriate custom filtering methods specific to the data type</li>
-<li>A usable, javascript-free form field</li>
-<li>Where appropriate, a cleverer custom widget for use in the admin</li>
-<li>Extensive tests for each field covering field creation and modification via
-  migrations, all allowable query constructs and validation</li>
-<li>Documentation for the model field and form field, complete with examples and
-  comments on possible use cases.</li>
-</ul>
-<p>Thanks for reading, and I hope you are as excited by this project as I am!</p>                </article>
+</footer><!-- /.post-info -->                <p>Kickstarting improved PostgreSQL support in Django - because the Django pony and the Postgres elephant could be better friends.</p>
+                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/launch.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
 <p class="paginator">
     Page 1 / 1
 </p>
-            </aside><!-- /#featured -->
-            </ol><!-- /#posts-list -->
             </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
