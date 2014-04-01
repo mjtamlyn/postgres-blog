@@ -134,7 +134,7 @@ possible. You're all wonderful!
 
 <div class="one">
     <div class="sponsor">
-        <h3>Paul Andrew Hallett</h3>
+        <h3>Paul Hallett</h3>
     </div>
     <div class="sponsor">
         <a href="http://www.divio.ch">
