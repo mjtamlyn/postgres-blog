@@ -1,5 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Improved PostgreSQL support for Django</title><link href="http://postgres.mjtamlyn.co.uk/" rel="alternate"></link><link href="http://postgres.mjtamlyn.co.uk/feeds/all.atom.xml" rel="self"></link><id>http://postgres.mjtamlyn.co.uk/</id><updated>2014-03-15T00:00:00+00:00</updated><entry><title>Making a start</title><link href="http://postgres.mjtamlyn.co.uk/where-to-start.html" rel="alternate"></link><updated>2014-03-15T00:00:00+00:00</updated><author><name>Marc Tamlyn</name></author><id>tag:postgres.mjtamlyn.co.uk,2014-03-15:where-to-start.html</id><summary type="html">&lt;p&gt;The last month has been amazing for me. It feels like the whole Django
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Improved PostgreSQL support for Django</title><link href="http://postgres.mjtamlyn.co.uk/" rel="alternate"></link><link href="http://postgres.mjtamlyn.co.uk/feeds/all.atom.xml" rel="self"></link><id>http://postgres.mjtamlyn.co.uk/</id><updated>2014-04-08T00:00:00+01:00</updated><entry><title>Fields of fields</title><link href="http://postgres.mjtamlyn.co.uk/arrays.html" rel="alternate"></link><updated>2014-04-08T00:00:00+01:00</updated><author><name>Marc Tamlyn</name></author><id>tag:postgres.mjtamlyn.co.uk,2014-04-08:arrays.html</id><summary type="html">&lt;p&gt;I'm sure you will all be pleased to hear that some progress is being made with
+the project! The bulk of the work will be done over the summer months, but I am
+hoping to have a couple of the more interesting new field types done before
+&lt;a href="http://2014.djangocon.eu/"&gt;DjangoConEU&lt;/a&gt; in May. (Speaking of DjangoConEU - I
+will be speaking in more detail there about this project, if you haven't booked
+your tickets yet you should totally do so - it'll be a great event!)&lt;/p&gt;
+&lt;p&gt;There is now a "work in progress" &lt;a href="https://github.com/django/django/pull/2485"&gt;pull
+request&lt;/a&gt; available on github for
+array fields. Comment is very welcome! An array field allows you to store lists
+of data in a single field. It's like the big brother of Django's
+&lt;a href="https://docs.djangoproject.com/en/dev/ref/models/fields/#commaseparatedintegerfield`"&gt;&lt;code&gt;CommaSeparatedIntegerField&lt;/code&gt;&lt;/a&gt;,
+but it supports most other field types underneath.&lt;/p&gt;
+&lt;p&gt;The only restriction on the field type is that we do not support any related
+field type - &lt;code&gt;ForeignKey&lt;/code&gt; or &lt;code&gt;ManyToMany&lt;/code&gt;. I should not need to explain why the
+latter is illogical, but in the case of the former it's worth pointing out the
+reasoning why. In short, Postgres does not allow the use of &lt;code&gt;REFERENCES&lt;/code&gt; in
+array field declarations, so you could build an array of foreign key data, but
+it would not have referential integrity. As this is a promise of the
+&lt;code&gt;ForeignKey&lt;/code&gt;, we cannot support &lt;code&gt;ArrayField(ForeignKey())&lt;/code&gt;. This is an
+unfortunate restriction as many of the "natural" use cases for arrays would
+reference other objects, and one which I hope to lift in the future if Postgres
+support improves. You can of course emulate this with
+&lt;code&gt;ArrayField(IntegerField())&lt;/code&gt; but this is at your own risk!&lt;/p&gt;
+&lt;p&gt;Aside from their utility for storing list-like data without the requirement for
+another table, Postgres array fields can also be queried in a number of ways.
+Taking as an example a dice-based guessing game where we have an &lt;code&gt;Attempt&lt;/code&gt; model
+which stores the attempts to guess the rolled number, the following queries are
+all valid:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c"&gt;# only one guess, value 1&lt;/span&gt;
+&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses__0&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# first guess is 1&lt;/span&gt;
+&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses__0_1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c"&gt;# first guess 1, second guess 2&lt;/span&gt;
+&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses__len__lt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# less than 3 guesses&lt;/span&gt;
+&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses__contains&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c"&gt;# at least one guess is 1&lt;/span&gt;
+&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses__overlap&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c"&gt;# at least one guess is either 1 or 2&lt;/span&gt;
+&lt;span class="n"&gt;Attempt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guesses__contained_by&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c"&gt;# guesses include only 1 and 2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As with other non-text based fields in Django, at the moment array fields still
+support a number of other lookups which cast the value to text. Personally I
+consider this to be somewhat misleading at the moment and am considering
+removing support for them. This is perhaps part of a wider question though - is
+it logical that a &lt;code&gt;DateField&lt;/code&gt; supports &lt;code&gt;__istartswith&lt;/code&gt; (probably not) but is it
+logical that it supports &lt;code&gt;__startswith=200&lt;/code&gt; as an alternative to the upcoming
+(postgres specific) &lt;code&gt;__decade=2000&lt;/code&gt;? My instinct is that we should introduce a
+&lt;code&gt;__text&lt;/code&gt; transform which is available on all data types and casts to text,
+allowing these filters. This could be done with a deprecation path. I'm
+interested to hear your views!&lt;/p&gt;
+&lt;p&gt;The next step is to build a couple of form fields for arrays, one being a
+simple CharField taking a &lt;code&gt;delimiter&lt;/code&gt; with a delimiter to split on, and the
+other being a more complex Javascript enabled field for the admin which allows
+a nicer interface. Perhaps we could also include a version of this without the
+javascript that has a similar API to formsets. After that I just need to write
+complete documentation and we can merge it in!&lt;/p&gt;
+&lt;h2&gt;A note on JSON support&lt;/h2&gt;
+&lt;p&gt;The Postgres team have recently merged support for a &lt;code&gt;jsonb&lt;/code&gt; datatype - binary
+stored JSON. It is quite likely that I will delay JSON support until Postgres
+9.4 is out and only support the &lt;code&gt;jsonb&lt;/code&gt; data type. There are several reasons
+for this, the most significant being that the current &lt;code&gt;json&lt;/code&gt; data type is
+severly limited in its implementation, lacking even an equality operator. This
+means that some parts of Django annotation code generate invalid queries (see
+&lt;a href="https://github.com/bradjasper/django-jsonfield/issues/55"&gt;this report&lt;/a&gt;) and
+also means that a &lt;code&gt;__exact&lt;/code&gt; lookup has to be forbidden. To handle all these
+edge cases properly in Django would result in a huge amount of complexity, and
+the benefits you gain over just storing json in a text field are actually quite
+limited. 9.4 is due out towards the end of this year, so as a result JSON
+fields are likely to only feature in the 1.8 release.&lt;/p&gt;
+&lt;h2&gt;Sponsors page updated&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="/pages/sponsors.html"&gt;sponsors page&lt;/a&gt; has been updated with images and
+links for all the major sponsors. Go and check out all the great companies and
+individuals who have supported this project.&lt;/p&gt;</summary><category term="django"></category><category term="postgres"></category><category term="kickstarter"></category></entry><entry><title>Making a start</title><link href="http://postgres.mjtamlyn.co.uk/where-to-start.html" rel="alternate"></link><updated>2014-03-15T00:00:00+00:00</updated><author><name>Marc Tamlyn</name></author><id>tag:postgres.mjtamlyn.co.uk,2014-03-15:where-to-start.html</id><summary type="html">&lt;p&gt;The last month has been amazing for me. It feels like the whole Django
 community has got behind this project and is looking forwards to it. An
 enormous thank you to everyone who has contributed to the project. I am still
 gathering together the details of the sponsors, but you can see a "raw" list on
