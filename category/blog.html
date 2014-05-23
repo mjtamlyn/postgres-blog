@@ -22,7 +22,57 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/arrays.html">Fields of fields</a></h1>
+                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/arrays-merged.html">Arrays merged</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-05-23T00:00:00">
+                Fri 23 May 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
+        </address>
+<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
+</footer><!-- /.post-info --><p>Good news everyone! <code>ArrayField</code> has been merged into django master. This
+will not be backported to the upcoming 1.7 release, but it will now be in 1.8.
+You can read the
+<a href="https://docs.djangoproject.com/en/dev/ref/contrib/postgres/">documentation</a>.
+Let us know if you find any errors!</p>
+<p>There are two notable areas which still need to be addressed with arrays, but
+the patch was large enough to review and merge without those as well. The first
+is improving its behaviour in the admin. I would like to provide an admin
+widget which uses the normal admin widgets for each field, starting with a
+given number but also being extended to arbitrary size by an "add" button on
+the page. This extension is rather difficult to implement at present because of
+most of the django admin widgets are not easily constructible from javascript.
+In order to do this well, a fairly significant overhaul of how the Django admin
+renders widgets such as the date/time widget and makes them interactive is
+needed.</p>
+<p>The second area is indexing. While <code>db_index=True</code> will work on an
+<code>ArrayField</code>, it will create a btree index which is only useful for equality
+in this case. The correct index type is a <code>gist</code> index, but there is no way to
+tell Django this is what I need. This will require a refactoring of
+<code>spatial_index</code> in <code>contrib.gis</code> as well, and fits nicely within the work on
+custom indexes.</p>
+<p>I think my next area to work on will be uuid fields, with larger primary key
+fields coming out as a corrollary. The interest here will be in supporting
+making fields other than <code>AutoField</code> be "auto" fields - using <code>RETURNING</code> to
+allow the database to calculate their values and return them.</p>
+<p>For those interested, slides from my talk at DjangoConEurope are <a href="https://speakerdeck.com/mjtamlyn/the-future-of-postgresql-in-django">available
+online</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://postgres.mjtamlyn.co.uk/arrays.html" rel="bookmark"
+                           title="Permalink to Fields of fields">Fields of fields</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-04-08T00:00:00">
                 Tue 08 April 2014
@@ -33,82 +83,10 @@
         </address>
 <p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info --><p>I'm sure you will all be pleased to hear that some progress is being made with
-the project! The bulk of the work will be done over the summer months, but I am
-hoping to have a couple of the more interesting new field types done before
-<a href="http://2014.djangocon.eu/">DjangoConEU</a> in May. (Speaking of DjangoConEU - I
-will be speaking in more detail there about this project, if you haven't booked
-your tickets yet you should totally do so - it'll be a great event!)</p>
-<p>There is now a "work in progress" <a href="https://github.com/django/django/pull/2485">pull
-request</a> available on github for
-array fields. Comment is very welcome! An array field allows you to store lists
-of data in a single field. It's like the big brother of Django's
-<a href="https://docs.djangoproject.com/en/dev/ref/models/fields/#commaseparatedintegerfield`"><code>CommaSeparatedIntegerField</code></a>,
-but it supports most other field types underneath.</p>
-<p>The only restriction on the field type is that we do not support any related
-field type - <code>ForeignKey</code> or <code>ManyToMany</code>. I should not need to explain why the
-latter is illogical, but in the case of the former it's worth pointing out the
-reasoning why. In short, Postgres does not allow the use of <code>REFERENCES</code> in
-array field declarations, so you could build an array of foreign key data, but
-it would not have referential integrity. As this is a promise of the
-<code>ForeignKey</code>, we cannot support <code>ArrayField(ForeignKey())</code>. This is an
-unfortunate restriction as many of the "natural" use cases for arrays would
-reference other objects, and one which I hope to lift in the future if Postgres
-support improves. You can of course emulate this with
-<code>ArrayField(IntegerField())</code> but this is at your own risk!</p>
-<p>Aside from their utility for storing list-like data without the requirement for
-another table, Postgres array fields can also be queried in a number of ways.
-Taking as an example a dice-based guessing game where we have an <code>Attempt</code> model
-which stores the attempts to guess the rolled number, the following queries are
-all valid:</p>
-<div class="highlight"><pre><span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c"># only one guess, value 1</span>
-<span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses__0</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># first guess is 1</span>
-<span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses__0_1</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c"># first guess 1, second guess 2</span>
-<span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses__len__lt</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c"># less than 3 guesses</span>
-<span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses__contains</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c"># at least one guess is 1</span>
-<span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses__overlap</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c"># at least one guess is either 1 or 2</span>
-<span class="n">Attempt</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">guesses__contained_by</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c"># guesses include only 1 and 2</span>
-</pre></div>
-
-
-<p>As with other non-text based fields in Django, at the moment array fields still
-support a number of other lookups which cast the value to text. Personally I
-consider this to be somewhat misleading at the moment and am considering
-removing support for them. This is perhaps part of a wider question though - is
-it logical that a <code>DateField</code> supports <code>__istartswith</code> (probably not) but is it
-logical that it supports <code>__startswith=200</code> as an alternative to the upcoming
-(postgres specific) <code>__decade=2000</code>? My instinct is that we should introduce a
-<code>__text</code> transform which is available on all data types and casts to text,
-allowing these filters. This could be done with a deprecation path. I'm
-interested to hear your views!</p>
-<p>The next step is to build a couple of form fields for arrays, one being a
-simple CharField taking a <code>delimiter</code> with a delimiter to split on, and the
-other being a more complex Javascript enabled field for the admin which allows
-a nicer interface. Perhaps we could also include a version of this without the
-javascript that has a similar API to formsets. After that I just need to write
-complete documentation and we can merge it in!</p>
-<h2>A note on JSON support</h2>
-<p>The Postgres team have recently merged support for a <code>jsonb</code> datatype - binary
-stored JSON. It is quite likely that I will delay JSON support until Postgres
-9.4 is out and only support the <code>jsonb</code> data type. There are several reasons
-for this, the most significant being that the current <code>json</code> data type is
-severly limited in its implementation, lacking even an equality operator. This
-means that some parts of Django annotation code generate invalid queries (see
-<a href="https://github.com/bradjasper/django-jsonfield/issues/55">this report</a>) and
-also means that a <code>__exact</code> lookup has to be forbidden. To handle all these
-edge cases properly in Django would result in a huge amount of complexity, and
-the benefits you gain over just storing json in a text field are actually quite
-limited. 9.4 is due out towards the end of this year, so as a result JSON
-fields are likely to only feature in the 1.8 release.</p>
-<h2>Sponsors page updated</h2>
-<p>The <a href="/pages/sponsors.html">sponsors page</a> has been updated with images and
-links for all the major sponsors. Go and check out all the great companies and
-individuals who have supported this project.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Lists of data in a single field</p>
+                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/arrays.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Improved PostgreSQL support for Django</title><link href="http://postgres.mjtamlyn.co.uk/" rel="alternate"></link><link href="http://postgres.mjtamlyn.co.uk/feeds/all.atom.xml" rel="self"></link><id>http://postgres.mjtamlyn.co.uk/</id><updated>2014-04-08T00:00:00+01:00</updated><entry><title>Fields of fields</title><link href="http://postgres.mjtamlyn.co.uk/arrays.html" rel="alternate"></link><updated>2014-04-08T00:00:00+01:00</updated><author><name>Marc Tamlyn</name></author><id>tag:postgres.mjtamlyn.co.uk,2014-04-08:arrays.html</id><summary type="html">&lt;p&gt;I'm sure you will all be pleased to hear that some progress is being made with
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Improved PostgreSQL support for Django</title><link href="http://postgres.mjtamlyn.co.uk/" rel="alternate"></link><link href="http://postgres.mjtamlyn.co.uk/feeds/all.atom.xml" rel="self"></link><id>http://postgres.mjtamlyn.co.uk/</id><updated>2014-05-23T00:00:00+01:00</updated><entry><title>Arrays merged</title><link href="http://postgres.mjtamlyn.co.uk/arrays-merged.html" rel="alternate"></link><updated>2014-05-23T00:00:00+01:00</updated><author><name>Marc Tamlyn</name></author><id>tag:postgres.mjtamlyn.co.uk,2014-05-23:arrays-merged.html</id><summary type="html">&lt;p&gt;Good news everyone! &lt;code&gt;ArrayField&lt;/code&gt; has been merged into django master. This
+will not be backported to the upcoming 1.7 release, but it will now be in 1.8.
+You can read the
+&lt;a href="https://docs.djangoproject.com/en/dev/ref/contrib/postgres/"&gt;documentation&lt;/a&gt;.
+Let us know if you find any errors!&lt;/p&gt;
+&lt;p&gt;There are two notable areas which still need to be addressed with arrays, but
+the patch was large enough to review and merge without those as well. The first
+is improving its behaviour in the admin. I would like to provide an admin
+widget which uses the normal admin widgets for each field, starting with a
+given number but also being extended to arbitrary size by an "add" button on
+the page. This extension is rather difficult to implement at present because of
+most of the django admin widgets are not easily constructible from javascript.
+In order to do this well, a fairly significant overhaul of how the Django admin
+renders widgets such as the date/time widget and makes them interactive is
+needed.&lt;/p&gt;
+&lt;p&gt;The second area is indexing. While &lt;code&gt;db_index=True&lt;/code&gt; will work on an
+&lt;code&gt;ArrayField&lt;/code&gt;, it will create a btree index which is only useful for equality
+in this case. The correct index type is a &lt;code&gt;gist&lt;/code&gt; index, but there is no way to
+tell Django this is what I need. This will require a refactoring of
+&lt;code&gt;spatial_index&lt;/code&gt; in &lt;code&gt;contrib.gis&lt;/code&gt; as well, and fits nicely within the work on
+custom indexes.&lt;/p&gt;
+&lt;p&gt;I think my next area to work on will be uuid fields, with larger primary key
+fields coming out as a corrollary. The interest here will be in supporting
+making fields other than &lt;code&gt;AutoField&lt;/code&gt; be "auto" fields - using &lt;code&gt;RETURNING&lt;/code&gt; to
+allow the database to calculate their values and return them.&lt;/p&gt;
+&lt;p&gt;For those interested, slides from my talk at DjangoConEurope are &lt;a href="https://speakerdeck.com/mjtamlyn/the-future-of-postgresql-in-django"&gt;available
+online&lt;/a&gt;.&lt;/p&gt;</summary><category term="django"></category><category term="postgres"></category><category term="kickstarter"></category></entry><entry><title>Fields of fields</title><link href="http://postgres.mjtamlyn.co.uk/arrays.html" rel="alternate"></link><updated>2014-04-08T00:00:00+01:00</updated><author><name>Marc Tamlyn</name></author><id>tag:postgres.mjtamlyn.co.uk,2014-04-08:arrays.html</id><summary type="html">&lt;p&gt;I'm sure you will all be pleased to hear that some progress is being made with
 the project! The bulk of the work will be done over the summer months, but I am
 hoping to have a couple of the more interesting new field types done before
 &lt;a href="http://2014.djangocon.eu/"&gt;DjangoConEU&lt;/a&gt; in May. (Speaking of DjangoConEU - I
