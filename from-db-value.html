@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Improved PostgreSQL support for Django - kickstarter</title>
+        <title>Converting database representations</title>
         <link rel="stylesheet" href="http://postgres.mjtamlyn.co.uk/theme/css/main.css" />
         <link href="http://postgres.mjtamlyn.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Improved PostgreSQL support for Django Atom Feed" />
 
@@ -16,13 +16,18 @@
                 <h1><a href="http://postgres.mjtamlyn.co.uk/">Improved PostgreSQL support for Django </a></h1>
                 <nav><ul>
                     <li><a href="http://postgres.mjtamlyn.co.uk/pages/sponsors.html">Sponsors</a></li>
-                    <li><a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a></li>
+                    <li class="active"><a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://postgres.mjtamlyn.co.uk/from-db-value.html" rel="bookmark"
+           title="Permalink to Converting database representations">Converting database representations</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/from-db-value.html">Converting database representations</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-08-26T00:00:00">
                 Tue 26 August 2014
@@ -33,7 +38,7 @@
         </address>
 <p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info --><p>I would like to start with an apology for the quietness on this blog recently,
+</footer><!-- /.post-info -->      <p>I would like to start with an apology for the quietness on this blog recently,
 work has been going on though a little slower than I would like as my personal
 life has been getting in the way of doing any work. Over the last six weeks
 things have improved and there are two exciting new fields in the pipeline.</p>
@@ -107,105 +112,11 @@ and the proposed API is nicely overridable by the gis compiler.</p>
 <p>The proposed changes are available as a <a href="https://github.com/django/django/pull/3047">pull
 request</a> for comment, and there is
 also a <a href="https://groups.google.com/forum/#!msg/django-developers/0nauqFFwscU/ykXvUTkxW0wJ">thread on
-Django-Dev</a></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+Django-Dev</a></p>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://postgres.mjtamlyn.co.uk/arrays-merged.html" rel="bookmark"
-                           title="Permalink to Arrays merged">Arrays merged</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-05-23T00:00:00">
-                Fri 23 May 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
-        </address>
-<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info -->                <p>Arrays are merged, what next?</p>
-                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/arrays-merged.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://postgres.mjtamlyn.co.uk/arrays.html" rel="bookmark"
-                           title="Permalink to Fields of fields">Fields of fields</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-04-08T00:00:00">
-                Tue 08 April 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
-        </address>
-<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info -->                <p>Lists of data in a single field</p>
-                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/arrays.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://postgres.mjtamlyn.co.uk/where-to-start.html" rel="bookmark"
-                           title="Permalink to Making a start">Making a start</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-03-15T00:00:00">
-                Sat 15 March 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
-        </address>
-<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info -->                <p>Funding has been secured, so where do we start?</p>
-                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/where-to-start.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://postgres.mjtamlyn.co.uk/launch.html" rel="bookmark"
-                           title="Permalink to A wild Kickstarter appears!">A wild Kickstarter appears!</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-02-08T00:00:00">
-                Sat 08 February 2014
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
-        </address>
-<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info -->                <p>Kickstarting improved PostgreSQL support in Django - because the Django pony and the Postgres elephant could be better friends.</p>
-                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/launch.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

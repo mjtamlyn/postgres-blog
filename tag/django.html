@@ -22,7 +22,105 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/arrays-merged.html">Arrays merged</a></h1>
+                    <h1 class="entry-title"><a href="http://postgres.mjtamlyn.co.uk/from-db-value.html">Converting database representations</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-08-26T00:00:00">
+                Tue 26 August 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://postgres.mjtamlyn.co.uk/author/marc-tamlyn.html">Marc Tamlyn</a>
+        </address>
+<p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
+</footer><!-- /.post-info --><p>I would like to start with an apology for the quietness on this blog recently,
+work has been going on though a little slower than I would like as my personal
+life has been getting in the way of doing any work. Over the last six weeks
+things have improved and there are two exciting new fields in the pipeline.</p>
+<h2>New fields on the way</h2>
+<p>There are 90% finished patches for
+<a href="https://github.com/django/django/pull/2923">UUIDField</a> and
+<a href="https://github.com/django/django/pull/2995">DurationField</a>. These fields both
+have long standing accepted tickets to be introduced as general django fields,
+not specific to PostgreSQL. On PostgreSQL, they will natively use the <code>uuid</code>
+and <code>interval</code> data types, and on other databases the will use <code>char(32)</code> and
+<code>bigint</code> respectively. The initial patches used the metaclass <code>SubfieldBase</code>
+provided by Django, but this has some significant issues. As a result, changes
+have been needed in the ORM to handle database-python conversions when loading
+from the database.</p>
+<h2>The status quo</h2>
+<h3>Database backends</h3>
+<p>Not all database drivers return all field types in the same format. Psycopg2 is
+generally pretty well behaved, but mysql, oracle and sqlite all have some
+idiosyncrasies about certain fields, usually relating to dates, decimals or
+booleans. Furthermore, sometimes these only happened when aggregates were
+involved. There were two hooks provided to deal with these, firstly
+<code>Query.convert_values</code> calling <code>DatabaseOperations.convert_values</code>, which was
+called by aggregates code, and secondly the optional method
+<code>SQLCompiler.resolve_columns</code> which was called during normal queryset
+evaluation if present. On oracle and in gis, <code>SQLCompiler.resolve_columns</code>
+invoked <code>Query.convert_values</code> which in turn invoked
+<code>DatabaseOperations.convert_values</code>.</p>
+<p>This change based on whether <code>SQLCompiler.resolve_columns</code> existed or not
+caused at least <a href="https://code.djangoproject.com/ticket/21565">ticket 21565</a>.</p>
+<h3>Custom fields</h3>
+<p>Django provides a metaclass called SubfieldBase, which basically means that
+that field will have its <code>to_python()</code> method called whenever a value is
+assigned to the model, including when it is loaded from the database. This
+really is an abuse of <code>to_python()</code> whose primary purpose is to convert strings
+from serialisation and forms into the relevant python object. It also provided
+no way to change the behaviour based on the backend, but crucially was not
+called by aggregation or <code>values()</code> calls. (<a href="https://code.djangoproject.com/ticket/14462">ticket
+14462</a>)</p>
+<h3>Proposed changes</h3>
+<p>The new proposed code allows backends and fields to provide converter functions
+to transform the value from the database to the model layer. DatabaseBackend
+converters are run first and for internal types will normalise the values. A
+custom field can then convert the resulting object again if needs be. This code
+is run in an efficient manner and the same way in all parts of the ORM -
+queries, aggregates, <code>.values()</code>, <code>.dates()</code> etc. Due to changes in the
+signatures and for performance reasons, all the hooks have changed. The new API
+is summarized below:</p>
+<h4>"Private" API</h4>
+<ul>
+<li><code>SQLCompiler.get_converters(fields)</code></li>
+<li><code>SQLCompiler.apply_converters(row, converters)</code></li>
+</ul>
+<h4>"Semi-Private" API</h4>
+<ul>
+<li><code>DatabaseOperations.get_db_converters(internal_type)</code> - returns a list of
+    backend converter functions <code>convert(value, field)</code></li>
+<li><code>Field.get_db_converters(connection)</code> - returns a list of field converter
+    functions <code>convert(value, field)</code></li>
+</ul>
+<h4>Public API</h4>
+<ul>
+<li><code>Field.from_db_value(value, connection)</code> - public documented hook to replace
+    SubfieldBase.</li>
+</ul>
+<h2>A note on gis</h2>
+<p>This has a 147 line negative diff in <code>contrib.gis</code>, removing a bunch of
+duplicated code, an entire compiler module for mysql, <code>GeoValuesQuerySet</code>, and
+custom code in <code>SQLDateCompiler</code>. Overall it is a pretty substantial cleanup
+and the proposed API is nicely overridable by the gis compiler.</p>
+<h2>Comments</h2>
+<p>The proposed changes are available as a <a href="https://github.com/django/django/pull/3047">pull
+request</a> for comment, and there is
+also a <a href="https://groups.google.com/forum/#!msg/django-developers/0nauqFFwscU/ykXvUTkxW0wJ">thread on
+Django-Dev</a></p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://postgres.mjtamlyn.co.uk/arrays-merged.html" rel="bookmark"
+                           title="Permalink to Arrays merged">Arrays merged</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-05-23T00:00:00">
                 Fri 23 May 2014
@@ -33,38 +131,10 @@
         </address>
 <p>In <a href="http://postgres.mjtamlyn.co.uk/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://postgres.mjtamlyn.co.uk/tag/django.html">django</a><a href="http://postgres.mjtamlyn.co.uk/tag/postgres.html">postgres</a><a href="http://postgres.mjtamlyn.co.uk/tag/kickstarter.html">kickstarter</a></p>
-</footer><!-- /.post-info --><p>Good news everyone! <code>ArrayField</code> has been merged into django master. This
-will not be backported to the upcoming 1.7 release, but it will now be in 1.8.
-You can read the
-<a href="https://docs.djangoproject.com/en/dev/ref/contrib/postgres/">documentation</a>.
-Let us know if you find any errors!</p>
-<p>There are two notable areas which still need to be addressed with arrays, but
-the patch was large enough to review and merge without those as well. The first
-is improving its behaviour in the admin. I would like to provide an admin
-widget which uses the normal admin widgets for each field, starting with a
-given number but also being extended to arbitrary size by an "add" button on
-the page. This extension is rather difficult to implement at present because of
-most of the django admin widgets are not easily constructible from javascript.
-In order to do this well, a fairly significant overhaul of how the Django admin
-renders widgets such as the date/time widget and makes them interactive is
-needed.</p>
-<p>The second area is indexing. While <code>db_index=True</code> will work on an
-<code>ArrayField</code>, it will create a btree index which is only useful for equality
-in this case. The correct index type is a <code>gist</code> index, but there is no way to
-tell Django this is what I need. This will require a refactoring of
-<code>spatial_index</code> in <code>contrib.gis</code> as well, and fits nicely within the work on
-custom indexes.</p>
-<p>I think my next area to work on will be uuid fields, with larger primary key
-fields coming out as a corrollary. The interest here will be in supporting
-making fields other than <code>AutoField</code> be "auto" fields - using <code>RETURNING</code> to
-allow the database to calculate their values and return them.</p>
-<p>For those interested, slides from my talk at DjangoConEurope are <a href="https://speakerdeck.com/mjtamlyn/the-future-of-postgresql-in-django">available
-online</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Arrays are merged, what next?</p>
+                <a class="readmore" href="http://postgres.mjtamlyn.co.uk/arrays-merged.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
