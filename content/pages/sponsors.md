@@ -106,7 +106,7 @@ possible. You're all wonderful!
     </div>
     <div class="sponsor">
         <a href="http://incuna.com/">
-            <img src="/images/incuna.png">
+            <img src="/images/incuna.jpg">
             <h3>Incuna Ltd</h3>
         </a>
     </div>
